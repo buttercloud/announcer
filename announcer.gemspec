@@ -6,12 +6,12 @@ require 'announcer/version'
 Gem::Specification.new do |spec|
   spec.name          = "announcer"
   spec.version       = Announcer::VERSION
-  spec.authors       = ["Luay Bseiso"]
-  spec.email         = ["luay@buttercloud.com"]
+  spec.authors       = ["ButterCloud LLC."]
+  spec.email         = ["info@buttercloud.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{"This is an announcer gem."}
+  spec.description   = %q{Announce messages via SMS, Email, Facebook, etc.}
+  spec.homepage      = "https://github.com/buttercloud/announcer"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -32,5 +32,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rspec", "~> 3.5"
 end

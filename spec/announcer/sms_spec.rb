@@ -6,7 +6,7 @@ describe Announcer::SMS, type: :class do
     describe "#initialize" do
       it "should set the filtered config hash in auth_config" do
         test_config = {auth_token: "bla", account_sid: "hello", invalid: nil}
-        sms_config = Announcer::SMS.new(test_config).sms_config
+        sms_config = Announcer::SMS.new(test_config).config
 
         expect(sms_config.keys).to_not include(:invalid)
         expect(sms_config.keys).to include(:auth_token)

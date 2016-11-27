@@ -3,18 +3,18 @@ require "announcer/type"
 require 'publisher'
 
 module Announcer
-  class SMS < Announcer::Type
+  class Email < Announcer::Type
     def initialize(_config={})
-      super(_config, [:auth_token, :account_sid])
+      super(_config, [:mandrill_api_key])
     end
 
-    def publish!(from:, to:, body:)
-      Publisher.publish_for_type(:sms,
+    def publish!(from:, to:, subject:, body:)
+      Publisher.publish_for_type(:email,
                                  from,
                                  to,
-                                 nil,
+                                 subject,
                                  body,
-                                 {sms: self.config})
+                                 {email: self.config})
     end
   end
 end

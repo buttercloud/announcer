@@ -5,7 +5,56 @@ describe Publisher do
     describe "#publish_for_type" do
       before(:each) do
         @test_config = {sms: {auth_token: "bla",
-                              account_sid: "hello"}}
+                              account_sid: "hello"},
+                        email: {mandrill_api_key: "emailbla"}}
+      end
+
+      context "Email" do
+        describe "Sending" do
+          before(:each) do
+            @mandrill = double("mandrill")
+            @messages = double("messages")
+            @res = double("results")
+
+            allow(Mandrill::API).to receive(:new).with(@test_config[:email][:mandrill_api_key]).and_return(@mandrill)
+            allow(@mandrill).to receive(:messages).and_return(@messages)
+            allow(@messages).to receive(:send).and_return(@res)
+          end
+
+          it "should send an Email using Mandrill" do
+            subject = "subject"
+            from_name = "OJarz [Announcer]"
+            html = "body"
+            from_email = "info@test.com"
+            to_emails = ["test1@test.com", "test2@test.com"]
+
+            # Test whether Mandrill gets called
+            expect(Mandrill::API).to receive(:new).with(@test_config[:email][:mandrill_api_key]).and_return(@mandrill).once
+            expect(@messages).to receive(:send).and_return(@res).once
+
+            Publisher.publish_for_type(:email, from_email, to_emails, subject, html, @test_config)
+          end
+
+          it "should send Mandrill the correct data" do
+            subject = "subject"
+            from_name = "OJarz [Announcer]"
+            html = "body"
+            from_email = "info@test.com"
+            to_emails = ["test1@test.com", "test2@test.com"]
+
+            final_to = [to_emails].flatten.map { |email| {email: email, name: "Name for #{email}"} }
+
+            message_data = {subject: subject,  
+                            from_name: from_name,  
+                            html: html,  
+                            to: final_to,  
+                            from_email: from_email}
+
+            expect(@messages).to receive(:send).with(message_data, any_args).and_return(@res).once
+
+            Publisher.publish_for_type(:email, from_email, to_emails, subject, html, @test_config)
+          end
+        end
       end
 
       context "SMS" do

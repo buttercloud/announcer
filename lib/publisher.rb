@@ -29,7 +29,7 @@ module Publisher
 
       def send_sms(from, to, body, config)
         client = Twilio::REST::Client.new(config[:account_sid], config[:auth_token])
-        send_via_twilio = ->(number) { client.account.messages.create(from: from, to: number, body: body) }
+        send_via_twilio = ->(number) { client.api.account.messages.create(from: from, to: number, body: body) }
         final_to = [to].flatten
 
         final_to.each { |number| send_via_twilio.call(number) }
